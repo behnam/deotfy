@@ -48,6 +48,7 @@ def usage():
   -f, --feature=FEATURE     OpenType feature tag to be activated
   -s, --script=SCRIPT       optional OpenType script tag
   -l, --language=LANGUAGE   optional OpenType language tag
+  -v, --verbose             verbose mode
 """ % sys.argv[0]
 
     print message
@@ -55,8 +56,9 @@ def usage():
 def main():
     try:
         opts, args = getopt.gnu_getopt(
-                sys.argv[1:], "ho:f:s:l:v",
-                ["help", "output=", "feature=", "script=", "language=" ])
+                sys.argv[1:], "hvo:f:s:l:",
+                ["help", "verbose",
+                 "output=", "feature=", "script=", "language="])
     except getopt.GetoptError, err:
         print str(err)
         usage()
@@ -86,7 +88,7 @@ def main():
             script = a
         elif o in ("-l", "--language"):
             language = a
-        elif o == "-v":
+        elif o in ("-v", "--verbose"):
             verbose = True
 
     if infile and outfile and feature:
