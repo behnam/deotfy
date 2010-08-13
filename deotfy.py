@@ -19,13 +19,19 @@ def deotfy(input,feature,script=None,language="dflt", verbose=False):
                             if j[0] == script:
                                 for k in j[1]:
                                     if k == language:
+                                        if verbose:
+                                            print "Selected lookup: %s" % lookup
                                         lookups.append(lookup)
                     else:
+                        if verbose:
+                            print "Selected lookup: %s" % lookup
                         lookups.append(lookup)
 
     for lookup in lookups:
-        for i in input.getLookupSubtables(lookup):
-            subtables.append(i)
+        for subtable in input.getLookupSubtables(lookup):
+            if verbose:
+                print "Selected subtable: %s" % subtable
+            subtables.append(subtable)
 
     for glyph in input.glyphs():
         for subtable in subtables:
@@ -33,7 +39,7 @@ def deotfy(input,feature,script=None,language="dflt", verbose=False):
             if sub:
                 target = sub[0][2]
                 if verbose:
-                    print "%s => %s" %(glyph.glyphname, target)
+                    print "Copying: %s => %s" %(glyph.glyphname, target)
                 output.selection.select(target)
                 output.copy()
                 output.selection.select(glyph.glyphname)
