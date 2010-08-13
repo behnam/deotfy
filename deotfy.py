@@ -2,6 +2,7 @@
 
 import fontforge
 import sys
+import os
 import getopt
 
 def deotfy(input,feature,script=None,language="dflt", verbose=False):
@@ -100,7 +101,11 @@ def main():
     if infile and outfile and feature:
         infont  = fontforge.open(infile)
         outfont = deotfy(infont, feature, script, language, verbose)
-        outfont.generate(outfile)
+        ext = os.path.splitext(outfile)[1]
+        if ext in (".sfd", ".sfdir"):
+            outfont.save(outfile)
+        else:
+            outfont.generate(outfile)
     else:
         if not outfile:
             print "No output file specified"
