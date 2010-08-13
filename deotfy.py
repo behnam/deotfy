@@ -5,21 +5,24 @@ import sys
 import os
 import getopt
 
-def deotfy(input,feature,script=None,language="dflt", verbose=False):
+def deotfy(input,features,scripts,languages,verbose=False):
     output        = input
     lookups       = [ ]
     subtables     = [ ]
+
+    if not languages:
+        languages = ["dflt"]
 
     for lookup in input.gsub_lookups:
         info = input.getLookupInfo(lookup)
         if info[0] == "gsub_single":
             for i in info[2]:
-                if i[0] == feature:
-                    if script:
+                if i[0] in features:
+                    if scripts:
                         for j in i[1]:
-                            if j[0] == script:
+                            if j[0] in scripts:
                                 for k in j[1]:
-                                    if k == language:
+                                    if k in languages:
                                         if verbose:
                                             print "Selected lookup: %s" % lookup
                                         lookups.append(lookup)
@@ -71,11 +74,11 @@ def main():
         usage()
         sys.exit(2)
 
-    infile   = None
-    outfile  = None
-    feature  = None
-    script   = None
-    language = None
+    infile = None
+    outfile = None
+    features = [ ]
+    scripts = [ ]
+    languages = [ ]
 
     verbose  = False
 
@@ -90,17 +93,17 @@ def main():
         if o in ("-o", "--output"):
             outfile = a
         elif o in ("-f", "--feature"):
-            feature = a
+            features.append(a)
         elif o in ("-s", "--script"):
-            script = a
+            scripts.append(a)
         elif o in ("-l", "--language"):
-            language = a
+            languages.append(a)
         elif o in ("-v", "--verbose"):
             verbose = True
 
-    if infile and outfile and feature:
+    if infile and outfile and features:
         infont  = fontforge.open(infile)
-        outfont = deotfy(infont, feature, script, language, verbose)
+        outfont = deotfy(infont, features, scripts, languages, verbose)
         ext = os.path.splitext(outfile)[1]
         if ext in (".sfd", ".sfdir"):
             outfont.save(outfile)
@@ -109,7 +112,7 @@ def main():
     else:
         if not outfile:
             print "No output file specified"
-        elif not feature:
+        elif not features:
             print "No feature specified"
         usage()
         sys.exit(2)
