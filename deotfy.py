@@ -54,10 +54,13 @@ def deotfy(input,features,scripts,languages,verbose=False):
 def usage():
     message = """Usage: %s OPTION... FILE...
 
+Options:
   -o, --output=FILE         file name of the resulting font
   -f, --feature=FEATURE     OpenType feature tag to be activated
   -s, --script=SCRIPT       optional OpenType script tag
   -l, --language=LANGUAGE   optional OpenType language tag
+
+  -h, --help                print this message and exit
   -v, --verbose             verbose mode
 """ % sys.argv[0]
 
@@ -100,6 +103,9 @@ def main():
             languages.append(a)
         elif o in ("-v", "--verbose"):
             verbose = True
+        elif o in ("-h", "--help"):
+            usage()
+            sys.exit(0)
 
     if infile and outfile and features:
         infont  = fontforge.open(infile)
