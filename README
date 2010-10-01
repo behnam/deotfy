@@ -1,4 +1,4 @@
-This is a Python script that takes an OpenTyp font and activates a
+This is a Python script that takes an OpenType font and activates a
 given feature so that it can be used in non OpenType savvy applications,
 it can even be use to always turn a feature on.
 
