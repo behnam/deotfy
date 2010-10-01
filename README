@@ -1,0 +1,20 @@
+This is a Python script that takes an OpenTyp font and activates a
+given feature so that it can be used in non OpenType savvy applications,
+it can even be use to always turn a feature on.
+
+Only single substitution features are supported.
+
+It requires FontForge with Python scripting support.
+
+
+Usage: deotfy.py OPTION... FILE...
+
+Options:
+  -o, --output=FILE         file name of the resulting font
+  -f, --feature=FEATURE     OpenType feature tag to be activated
+  -s, --script=SCRIPT       optional OpenType script tag
+  -l, --language=LANGUAGE   optional OpenType language tag
+
+  -h, --help                print this message and exit
+  -v, --verbose             verbose mode
+
